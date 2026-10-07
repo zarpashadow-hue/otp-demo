@@ -1,1 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OTP Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 100px;
+            background: #f4f4f4;
+        }
 
+        .box {
+            background: white;
+            width: 350px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px #ccc;
+        }
+
+        input {
+            padding: 12px;
+            width: 80%;
+            margin: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            background: #222;
+            color: white;
+            cursor: pointer;
+        }
+
+        #otpBox {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Student OTP Demo</h2>
+    <p>Demo / Test Environment</p>
+
+    <input id="phone" placeholder="Enter test phone number">
+
+    <br>
+
+    <button onclick="sendOTP()">Send Demo OTP</button>
+
+    <div id="otpBox">
+        <p>Enter the demo OTP:</p>
+        <input id="otp" placeholder="6-digit OTP">
+
+        <br>
+
+        <button onclick="verifyOTP()">Verify</button>
+
+        <p id="result"></p>
+    </div>
+</div>
+
+<script>
+let generatedOTP;
+
+function sendOTP() {
+    generatedOTP = Math.floor(100000 + Math.random() * 900000);
+
+    document.getElementById("otpBox").style.display = "block";
+
+    // Demo only — displays the generated OTP
+    alert("Demo OTP: " + generatedOTP);
+}
+
+function verifyOTP() {
+    let enteredOTP = document.getElementById("otp").value;
+
+    if (enteredOTP == generatedOTP) {
+        document.getElementById("result").innerHTML = "✅ OTP Verified";
+    } else {
+        document.getElementById("result").innerHTML = "❌ Incorrect OTP";
+    }
+}
+</script>
+
+</body>
+</html>

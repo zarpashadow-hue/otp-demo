@@ -1,91 +1,183 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>OTP Demo</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding-top: 100px;
-            background: #f4f4f4;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .box {
-            background: white;
-            width: 350px;
-            margin: auto;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px #ccc;
-        }
+<title>Account Verification Demo</title>
 
-        input {
-            padding: 12px;
-            width: 80%;
-            margin: 10px;
-            font-size: 16px;
-        }
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-        button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            background: #222;
-            color: white;
-            cursor: pointer;
-        }
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        background: #f7f7f7;
+    }
 
-        #otpBox {
-            display: none;
-        }
-    </style>
+    .box {
+        width: 360px;
+        background: white;
+        padding: 35px 30px;
+        border-radius: 18px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        text-align: center;
+    }
+
+    .demo {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: #fff3cd;
+        color: #856404;
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    h2 {
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #666;
+        line-height: 1.5;
+    }
+
+    input {
+        width: 100%;
+        padding: 14px;
+        margin-top: 12px;
+        border: 1px solid #ddd;
+        border-radius: 9px;
+        font-size: 16px;
+        outline: none;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 15px;
+        padding: 14px;
+        border: none;
+        border-radius: 9px;
+        background: #111;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #333;
+    }
+
+    #otpSection {
+        display: none;
+    }
+
+    #message {
+        margin-top: 18px;
+        font-size: 14px;
+    }
+</style>
 </head>
 
 <body>
 
 <div class="box">
-    <h2>Student OTP Demo</h2>
-    <p>Demo / Test Environment</p>
 
-    <input id="phone" placeholder="Enter test phone number">
+    <div class="demo">DEMO / TEST</div>
 
-    <br>
+    <h2>Account Verification</h2>
 
-    <button onclick="sendOTP()">Send Demo OTP</button>
+    <div id="phoneSection">
+        <p>
+            Enter your phone number to receive your
+            demo verification code.
+        </p>
 
-    <div id="otpBox">
-        <p>Enter the demo OTP:</p>
-        <input id="otp" placeholder="6-digit OTP">
+        <input
+            id="phone"
+            type="tel"
+            placeholder="Phone number"
+            maxlength="15"
+        >
 
-        <br>
-
-        <button onclick="verifyOTP()">Verify</button>
-
-        <p id="result"></p>
+        <button onclick="sendDemoOTP()">
+            Continue
+        </button>
     </div>
+
+
+    <div id="otpSection">
+
+        <p id="sentMessage"></p>
+
+        <input
+            id="otp"
+            type="text"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            maxlength="6"
+            placeholder="Enter 6-digit OTP"
+            oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6)"
+        >
+
+        <button onclick="verifyDemoOTP()">
+            Verify
+        </button>
+
+        <div id="message"></div>
+
+    </div>
+
 </div>
 
+
 <script>
-let generatedOTP;
 
-function sendOTP() {
-    generatedOTP = Math.floor(100000 + Math.random() * 900000);
+function sendDemoOTP() {
 
-    document.getElementById("otpBox").style.display = "block";
+    const phone = document.getElementById("phone").value.trim();
 
-    // Demo only — displays the generated OTP
-    alert("Demo OTP: " + generatedOTP);
-}
-
-function verifyOTP() {
-    let enteredOTP = document.getElementById("otp").value;
-
-    if (enteredOTP == generatedOTP) {
-        document.getElementById("result").innerHTML = "✅ OTP Verified";
-    } else {
-        document.getElementById("result").innerHTML = "❌ Incorrect OTP";
+    if (!phone) {
+        alert("Please enter a phone number.");
+        return;
     }
+
+    document.getElementById("phoneSection").style.display = "none";
+
+    document.getElementById("otpSection").style.display = "block";
+
+    document.getElementById("sentMessage").innerHTML =
+        "Your demo account OTP has been sent to <b>" +
+        phone +
+        "</b>.";
 }
+
+
+function verifyDemoOTP() {
+
+    const otp = document.getElementById("otp").value;
+
+    if (otp.length !== 6) {
+
+        document.getElementById("message").innerHTML =
+            "Please enter a 6-digit demo OTP.";
+
+        return;
+    }
+
+    document.getElementById("message").innerHTML =
+        "✅ Demo OTP accepted successfully.";
+
+}
+
 </script>
 
 </body>
